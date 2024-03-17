@@ -1,26 +1,20 @@
 <!-- RandomMovieGenerator.svelte -->
 <script lang="ts">
-	import Movies from './../lib/components/Movies.svelte';
-	import logo from '../public/assets/logo.svg';
-	import { getRandomMovie } from '$lib/API/get-movies';
-	import { onMount } from 'svelte';
-
-	// Definir a interface para os dados do filme
-	interface Movie {
-		title: string;
-		poster_path: string;
-		overview: string;
-	}
+	import Movies from './../lib/components/Movies.svelte'
+	import logo from '../public/assets/logo.svg'
+	import { getRandomMovie } from '$lib/API/get-movies'
+	import { onMount } from 'svelte'
+	import type { GetMovieResponse } from '../lib/API/get-movies'
 
 	// Declaração do estado reativo para o filme atual
-	let currentMovie: Movie | null = null;
+	let currentMovie: GetMovieResponse | null = null
 
 	// Função para carregar um filme aleatório ao montar o componente
-	onMount(loadRandomMovie);
+	onMount(loadRandomMovie)
 
 	// Função para carregar um filme aleatório
 	async function loadRandomMovie() {
-		currentMovie = await getRandomMovie();
+		currentMovie = await getRandomMovie()
 	}
 </script>
 

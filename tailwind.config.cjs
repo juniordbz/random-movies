@@ -4,12 +4,12 @@ const config = {
 
 	theme: {
 		fontFamily: {
-			sans: ['Poppins', 'sans-serif']
+			sans: ['Poppins', 'sans-serif'],
 		},
-		extend: {}
+		extend: {},
 	},
 
-	plugins: []
-};
+	plugins: [],
+}
 
-module.exports = config;
+module.exports = config

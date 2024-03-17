@@ -1,18 +1,38 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios'
 
-const apiKey = '17b68fe90623d28accc825a20eb7f814';
-const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=pt-BR&page=1&sort_by=vote_average.desc&vote_count.gte=1000`;
+const apiKey = '17b68fe90623d28accc825a20eb7f814'
+const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=pt-BR&page=1`
 
-export async function getRandomMovie() {
+export interface GetMovieResponse {
+	title: string
+	poster_path: string
+	overview: string
+	vote_average: number
+}
+
+interface MovieApiResponse {
+	results: GetMovieResponse[]
+}
+
+export async function getRandomMovie(): Promise<GetMovieResponse> {
 	try {
-		const response = await axios.get(url);
-		const movies = response.data.results;
-		const randomIndex = Math.floor(Math.random() * movies.length);
-		const randomMovie = movies[randomIndex];
-		console.log(randomMovie);
-		return randomMovie;
+		const response = await axios.get<MovieApiResponse>(url)
+		const movies = response.data?.results
+		if (!movies || movies.length === 0) {
+			throw new Error('Nenhum filme encontrado na resposta da API.')
+		}
+		const randomIndex = Math.floor(Math.random() * movies.length)
+		const randomMovie = movies[randomIndex]
+		return randomMovie
 	} catch (error) {
-		console.error('Erro:', error);
-		throw error;
+		const axiosError = error as AxiosError
+		if (axiosError.response) {
+			console.error('Erro de resposta da API:', axiosError.response.data)
+		} else if (axiosError.request) {
+			console.error('Erro de requisição:', axiosError.request)
+		} else {
+			console.error('Erro:', axiosError.message)
+		}
+		throw new Error('Falha ao obter filme aleatório.')
 	}
 }
