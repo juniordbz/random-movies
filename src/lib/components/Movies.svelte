@@ -11,6 +11,9 @@
 	<div class="flex-1">
 		<img class="mb-4 max-h-60 w-44" src={`${IMG_URL}${currentMovie.poster_path}`} alt="" />
 		<Stars rating={currentMovie.vote_average} />
+		<p class="mt-2 text-center text-sm text-zinc-100">
+			Avaliação: {currentMovie.vote_average.toFixed(1)}
+		</p>
 	</div>
 	<div class="flex flex-col gap-5 px-4 text-slate-100 md:px-0">
 		<h1 class="text-xl font-bold">{currentMovie.title}</h1>
